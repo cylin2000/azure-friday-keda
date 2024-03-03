@@ -35,7 +35,7 @@ This demo is shared under MIT license but is mainly a fork of [kedacore/sample-d
 
 
 ## 代码调用分析
-
+```
 App 使用了 .net 的 host 作为外壳启动 Service https://learn.microsoft.com/en-us/dotnet/core/extensions/generic-host?tabs=appbuilder , https://github.com/cylin2000/DotNetHostTest
 
 Src --> AzureFriday.Orders --> Program.cs Line 38 (启动后台服务: 这个服务是 RunAsync 启动后一直等待，除非收到控制台 Ctrl+C 或者 外层 Docker stop/kill 等) 
@@ -43,3 +43,4 @@ Src --> AzureFriday.Orders --> Program.cs Line 38 (启动后台服务: 这个服
                            --> OrdersQueueProcessor --> 继承自父类 QueueWorker Line 27 启动 Task.ExecuteAsync
                            --> QueueWorker Line 33  queueClient.RegisterMessageHandler(HandleMessage, HandleReceivedException);  queueClient 注册侦听 Service Bus 的消息，有消息就使用 HandleMessage 处理
                            --> 因为是异步的，所以后面的代码一直等待 queueClient 执行(Line 36: while (!stoppingToken.IsCancellationRequested))，直到外层传入 Cancellation
+```
